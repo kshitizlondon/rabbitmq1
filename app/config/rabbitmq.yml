@@ -1,0 +1,48 @@
+old_sound_rabbit_mq:
+    connections:
+        default:
+            host:     'rabbitmq'
+            port:     5672
+            user:     'guest'
+            password: 'guest'
+            vhost:    '/'
+            lazy:     false
+            connection_timeout: 3
+            read_write_timeout: 3
+
+            # requires php-amqplib v2.4.1+ and PHP5.4+
+            keepalive: false
+
+            # requires php-amqplib v2.4.1+
+            heartbeat: 0
+    producers:
+        hello_rabbitmq:
+            connection:       default
+            exchange_options: {name: 'hello', type: direct}
+        hello_rabbitmq1:
+            connection:       default
+            exchange_options: {name: 'hello', type: direct}
+
+    consumers:
+        hello_rabbitmq:
+            connection:       default
+            exchange_options: {name: 'hello', type: direct}
+            queue_options:    {name: 'hello'}
+            callback:         hello_rabbitmq_service
+            qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
+            enable_logger:    true
+
+    rpc_clients:
+        integer_store:
+            connection: default #default: default
+            unserializer: json_decode #default: unserialize
+            lazy: true #default: false
+            direct_reply_to: false
+    rpc_servers:
+        random_int:
+            connection: default
+            callback:   server_integer_producer_service
+            qos_options: {prefetch_size: 0, prefetch_count: 1, global: false}
+            exchange_options: {name: random_int, type: topic}
+            queue_options: {name: random_int_queue, durable: false, auto_delete: true}
+            serializer: json_encode
