@@ -4,13 +4,33 @@ namespace AppBundle\Producer;
 
 use PhpAmqpLib\Message\AMQPMessage;
 
+/**
+ * Callback to process request from the client and formulate the response.
+ */
 class RandomIntegerServer
 {
-    const RANDOM_NUMBER_LABEL = 'Server Random Number: ';
+    /**
+     * @var string
+     */
+    const RANDOM_NUMBER_LABEL = 'Server Random Number';
 
+    /**
+     * @param AMQPMessage $args
+     *
+     * @return string
+     */
     public function execute(AMQPMessage $args)
     {
+        /** @var array $body */
         $body = unserialize($args->getBody());
-        return static::RANDOM_NUMBER_LABEL . rand($body['min'], $body['max']);
+        $min = $body['min'];
+        $max = $body['max'];
+
+        $response = [
+            static::RANDOM_NUMBER_LABEL . '1' => rand($min, $max),
+            static::RANDOM_NUMBER_LABEL . '2' => rand($min, $max),
+        ];
+
+        return $response;
     }
 }
