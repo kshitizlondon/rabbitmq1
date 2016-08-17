@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use FOS\OAuthServerBundle\Util\Random;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,10 +33,13 @@ class DefaultController extends Controller
      */
     public function rpcAction()
     {
+        $requestId = mt_rand(5,10);
         $client = $this->get('old_sound_rabbit_mq.integer_store_rpc');
-        $client->addRequest(serialize(array('min' => 0, 'max' => 10)), 'random_int', 'request_id');
+        $client->addRequest(serialize(array('min' => 0, 'max' => 10)), 'random_int', $requestId);
         $replies = $client->getReplies();
 
-        return new Response(json_encode($replies));
+        if (array_key_exists($requestId, $replies)) {
+            return new Response(json_encode($replies));
+        }
     }
 }

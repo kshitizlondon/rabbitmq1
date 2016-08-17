@@ -2,10 +2,15 @@
 
 namespace AppBundle\Producer;
 
+use PhpAmqpLib\Message\AMQPMessage;
+
 class RandomIntegerServer
 {
-    public function execute()
+    const RANDOM_NUMBER_LABEL = 'Server Random Number: ';
+
+    public function execute(AMQPMessage $args)
     {
-        return 1;
+        $body = unserialize($args->getBody());
+        return static::RANDOM_NUMBER_LABEL . rand($body['min'], $body['max']);
     }
 }

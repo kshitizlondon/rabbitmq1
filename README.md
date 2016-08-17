@@ -19,3 +19,5 @@ A simple repository to learn how to use RabbitMQ and Symfony 2.8
 8) `php app/console rabbitmq:consumer hello_rabbitmq`
 
 9) In order to create exchanges, queues and bindings at once and be sure you will not lose any message, you can run the following command: `php app/console rabbitmq:setup-fabric`
+
+10) start rmpc server `app/console rabbitmq:rpc-server random_int`
