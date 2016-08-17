@@ -35,7 +35,7 @@ class DefaultController extends Controller
         $client = $this->get('old_sound_rabbit_mq.integer_store_rpc');
         $client->addRequest(serialize(array('min' => 0, 'max' => 10)), 'random_int', 'request_id');
         $replies = $client->getReplies();
-var_dump($replies['request_id']); die;
-        return new Response($replies['request_id']);
+
+        return new Response(json_encode($replies));
     }
 }

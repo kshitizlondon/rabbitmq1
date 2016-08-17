@@ -2,21 +2,10 @@
 
 namespace AppBundle\Producer;
 
-use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
-
-class RandomIntegerServer implements ProducerInterface
+class RandomIntegerServer
 {
-
-    /**
-     * Publish a message
-     *
-     * @param string $msgBody
-     * @param string $routingKey
-     * @param array  $additionalProperties
-     */
-    public function publish($msgBody, $routingKey = '', $additionalProperties = array())
+    public function execute()
     {
-        $msgBody = '1';
-        $this->publish($msgBody);
+        return 1;
     }
 }
