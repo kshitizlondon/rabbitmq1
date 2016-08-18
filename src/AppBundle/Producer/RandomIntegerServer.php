@@ -3,6 +3,7 @@
 namespace AppBundle\Producer;
 
 use PhpAmqpLib\Message\AMQPMessage;
+use Psr\Log\LoggerInterface;
 
 /**
  * Callback to process request from the client and formulate the response.
@@ -13,6 +14,16 @@ class RandomIntegerServer
      * @var string
      */
     const RANDOM_NUMBER_LABEL = 'Server Random Number';
+
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 
     /**
      * @param AMQPMessage $args
@@ -30,6 +41,8 @@ class RandomIntegerServer
             static::RANDOM_NUMBER_LABEL . '1' => rand($min, $max),
             static::RANDOM_NUMBER_LABEL . '2' => rand($min, $max),
         ];
+
+        $this->logger->info(sprintf('rely from the RPC server side: "%s"', $args->getBody()));
 
         return $response;
     }

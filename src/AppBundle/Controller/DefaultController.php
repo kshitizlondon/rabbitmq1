@@ -29,7 +29,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/rpc", name="send_message_using _rpc")
+     * @Route("/rpc", name="send_message_using_rpc")
      */
     public function rpcAction()
     {

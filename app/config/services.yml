@@ -6,5 +6,4 @@ services:
         class: AppBundle\Consumer\HelloRabbitmqConsumer
     server_integer_producer_service:
         class: AppBundle\Producer\RandomIntegerServer
-
-
+        arguments: [@logger]
