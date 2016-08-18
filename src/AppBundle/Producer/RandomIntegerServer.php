@@ -42,7 +42,7 @@ class RandomIntegerServer
             static::RANDOM_NUMBER_LABEL . '2' => rand($min, $max),
         ];
 
-        $this->logger->info(sprintf('rely from the RPC server side: "%s"', $args->getBody()));
+        $this->logger->info(sprintf('Rabbit1 RPC Replied Successfully. Request: "%s", Response: "%s"', $args->getBody(), serialize($response)));
 
         return $response;
     }
