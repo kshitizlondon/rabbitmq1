@@ -48,3 +48,11 @@ old_sound_rabbit_mq:
             exchange_options: {name: random_int, type: topic}
             queue_options: {name: random_int_queue, durable: false, auto_delete: true}
             serializer: json_encode
+
+        random_integer:
+            connection: default
+            callback:   random_integer_rpc_server
+            qos_options: {prefetch_size: 0, prefetch_count: 1, global: false}
+            exchange_options: {name: random_integer, type: topic}
+            queue_options: {name: random_integer_queue, durable: false, auto_delete: true}
+            serializer: json_encode
